@@ -1,0 +1,62 @@
+{
+  "train_rows": 17990,
+  "test_rows": 5000,
+  "train_spoof_prevalence": 0.19827682045580877,
+  "thresholds": {
+    "ml": 0.5021758404197602,
+    "hybrid": 0.4296200907719089,
+    "rules_fixed": 0.3
+  },
+  "operating_points": {
+    "ml_target": {
+      "precision": 0.8507614213197969,
+      "recall": 0.9394618834080718,
+      "threshold": 0.5021758404197602
+    },
+    "hybrid_target": {
+      "precision": 0.88016967126193,
+      "recall": 0.9304932735426009,
+      "threshold": 0.4296200907719089
+    }
+  },
+  "metrics": {
+    "rules_only": {
+      "precision": 1.0,
+      "recall": 0.28699551569506726,
+      "f1": 0.445993031358885
+    },
+    "ml_only": {
+      "precision": 0.8507614213197969,
+      "recall": 0.9394618834080718,
+      "f1": 0.8929142248268513
+    },
+    "hybrid": {
+      "precision": 0.88016967126193,
+      "recall": 0.9304932735426009,
+      "f1": 0.9046321525885559
+    },
+    "hybrid_refit_on_test": {
+      "precision": 0.872435325602141,
+      "recall": 0.9403846153846154,
+      "f1": 0.9051365108745951
+    },
+    "weak_label_vs_truth": {
+      "precision": 1.0,
+      "recall": 0.8571428571428571,
+      "f1": 0.9230769230769231
+    },
+    "average_precision": {
+      "ml": 0.9769796837903681,
+      "hybrid": 0.9768028475715902
+    }
+  },
+  "refit_dataset": "test",
+  "ai_batch_size": 1000,
+  "artifacts": {
+    "pr_curve": "pr_curve.png",
+    "fp_examples": "error_analysis_fp.csv",
+    "fn_examples": "error_analysis_fn.csv",
+    "results": "results.json",
+    "gemini_rule_proposals": "gemini_rule_proposals.json"
+  }
+}

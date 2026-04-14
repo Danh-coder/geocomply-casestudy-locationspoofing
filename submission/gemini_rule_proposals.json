@@ -1,0 +1,27 @@
+[
+  {
+    "rule": "Mock Location Flagged with High Accuracy",
+    "logic": "is_mock_location == true AND reported_accuracy_m < 10",
+    "why": "A mock location is intentionally set by the user or an app. If this mock location is reported with very high accuracy (less than 10 meters), it suggests a deliberate attempt to deceive the system by providing a precise but false location. This combination is highly suspicious."
+  },
+  {
+    "rule": "Significant Speed Discrepancy with Mock Location",
+    "logic": "is_mock_location == true AND ABS(implied_speed_mps - reported_speed_mps) > 20",
+    "why": "When a location is marked as mock, the `implied_speed_mps` (calculated from consecutive location updates) should ideally align with the `reported_speed_mps`. A large difference (over 20 mps) indicates that the reported speed doesn't match the movement implied by the mock location, suggesting an inconsistency in the spoofing attempt."
+  },
+  {
+    "rule": "VPN/Proxy Active with Geo-IP Mismatch",
+    "logic": "(vpn_active == true OR proxy_active == true) AND geo_ip_mismatch == true",
+    "why": "Using a VPN or proxy is often a method to mask one's true IP address and thus their perceived geographical location. If a VPN or proxy is active and there's a mismatch between the reported location's country (`geo_country`) and the IP address's country (`ip_country`), it strongly suggests an attempt to spoof the location by routing traffic through a different region."
+  },
+  {
+    "rule": "Unusual Clock Drift with Mock Location",
+    "logic": "is_mock_location == true AND clock_drift_abs_s > 5",
+    "why": "Spoofing applications might also manipulate the device's clock to align with the spoofed location's time zone or to bypass time-sensitive checks. A significant absolute clock drift (more than 5 seconds) in conjunction with a mock location flag is a strong indicator of a coordinated spoofing effort."
+  },
+  {
+    "rule": "High Number of Satellites with Low Accuracy",
+    "logic": "gnss_satellites_used > 15 AND reported_accuracy_m > 100",
+    "why": "Typically, a higher number of GNSS satellites used should result in better location accuracy. If the device reports using a large number of satellites (e.g., more than 15) but still has a poor reported accuracy (over 100 meters), it could indicate that the satellite data is being manipulated or that the reported accuracy is intentionally inflated to mask a less precise, potentially spoofed, location."
+  }
+]
