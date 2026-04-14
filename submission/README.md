@@ -4,7 +4,7 @@ This submission builds a reproducible synthetic-data pipeline and spoof detector
 - Interpretable rules baseline
 - Compact ML model
 - Hybrid scorer (rules + ML)
-- Mocked AI helper for rule proposal, weak labeling, and explanations
+- Gemini-backed AI helper for rule proposal, weak labeling, and explanations
 
 All required deliverables are included under this `submission` directory.
 
@@ -24,15 +24,52 @@ All required deliverables are included under this `submission` directory.
 - `results.json`
 - `requirements.txt`
 
-## One-Command Run (using uv)
+## Setup and Run (uv + Python 3.12)
 
 From repository root:
 
+1. Install uv (if not already installed):
+
 ```bash
-uv run --with-requirements submission/requirements.txt submission/src/generate_data.py --output-dir submission/data --train-rows 18000 --test-rows 5000 --spoof-rate 0.2 && uv run --with-requirements submission/requirements.txt submission/src/model_train_eval.py
+pip install uv
 ```
 
-This command generates/refreshes:
+2. Create and activate a Python 3.12 virtual environment:
+
+```bash
+uv venv --python 3.12 .venv
+source .venv/Scripts/activate
+```
+
+3. Install dependencies:
+
+```bash
+uv pip install -r submission/requirements.txt
+```
+
+4. Configure Gemini in `.env` (required before running scripts):
+
+```bash
+cat > submission/.env << 'EOF'
+GEMINI_API_KEY=your_key_here
+# Optional
+# GEMINI_MODEL=gemini-2.5-flash
+EOF
+```
+
+5. Generate synthetic data:
+
+```bash
+uv run --with-requirements submission/requirements.txt submission/src/generate_data.py --output-dir submission/data --train-rows 18000 --test-rows 5000 --spoof-rate 0.2
+```
+
+6. Run model training and evaluation:
+
+```bash
+uv run --with-requirements submission/requirements.txt submission/src/model_train_eval.py
+```
+
+These commands generate/refresh:
 - `submission/data/train.csv`
 - `submission/data/test.csv`
 - `submission/results.json`
@@ -41,18 +78,6 @@ This command generates/refreshes:
 - `submission/error_analysis_fp.csv`
 - `submission/error_analysis_fn.csv`
 - `submission/gemini_rule_proposals.json`
-
-Gemini setup (required):
-
-```bash
-export GEMINI_API_KEY="your_key_here"
-```
-
-Optional model override:
-
-```bash
-export GEMINI_MODEL="gemini-2.5-flash"
-```
 
 ## Notes
 
